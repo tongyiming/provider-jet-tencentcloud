@@ -23,16 +23,22 @@ import (
 	tjconfig "github.com/crossplane/terrajet/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
-	"github.com/crossplane-contrib/provider-jet-template/config/null"
+	"github.com/crossplane-contrib/provider-jet-tencentcloud/config/null"
+	"github.com/crossplane-contrib/provider-jet-tencentcloud/config/vpc"
 )
 
 const (
-	resourcePrefix = "template"
-	modulePath     = "github.com/crossplane-contrib/provider-jet-template"
+	resourcePrefix = "tencentcloud"
+	modulePath     = "github.com/crossplane-contrib/provider-jet-tencentcloud"
 )
 
 //go:embed schema.json
 var providerSchema string
+
+var IncludedResources = []string{
+	"tencentcloud_vpc$",
+}
+var skipList = []string{}
 
 // GetProvider returns provider configuration
 func GetProvider() *tjconfig.Provider {
@@ -44,11 +50,15 @@ func GetProvider() *tjconfig.Provider {
 	}
 
 	pc := tjconfig.NewProviderWithSchema([]byte(providerSchema), resourcePrefix, modulePath,
-		tjconfig.WithDefaultResourceFn(defaultResourceFn))
+		tjconfig.WithDefaultResourceFn(defaultResourceFn),
+		tjconfig.WithIncludeList(IncludedResources),
+		tjconfig.WithSkipList(skipList),
+	)
 
 	for _, configure := range []func(provider *tjconfig.Provider){
 		// add custom config functions
 		null.Configure,
+		vpc.Configure,
 	} {
 		configure(pc)
 	}
