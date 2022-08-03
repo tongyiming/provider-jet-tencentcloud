@@ -37,7 +37,7 @@ const (
 	errTrackUsage           = "cannot track ProviderConfig usage"
 	errExtractCredentials   = "cannot extract credentials"
 	errUnmarshalCredentials = "cannot unmarshal tencentcloud credentials as JSON"
-	keySecretId             = "secret_id"
+	keySecretID             = "secret_id"
 	keySecretKey            = "secret_key"
 	keyRegion               = "region"
 )
@@ -87,8 +87,8 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		}*/
 		// set credentials in Terraform provider configuration
 		ps.Configuration = map[string]interface{}{}
-		if v, ok := tencentcloudCreds[keySecretId]; ok {
-			ps.Configuration[keySecretId] = v
+		if v, ok := tencentcloudCreds[keySecretID]; ok {
+			ps.Configuration[keySecretID] = v
 		}
 		if v, ok := tencentcloudCreds[keySecretKey]; ok {
 			ps.Configuration[keySecretKey] = v
