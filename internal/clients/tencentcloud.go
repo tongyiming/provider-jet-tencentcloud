@@ -19,7 +19,6 @@ package clients
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/crossplane/crossplane-runtime/pkg/resource"
 	"github.com/pkg/errors"
@@ -41,9 +40,6 @@ const (
 	keySecretId             = "secret_id"
 	keySecretKey            = "secret_key"
 	keyRegion               = "region"
-	envSecretId             = "SECRET_ID"
-	envSecretKey            = "SECRET_KEY"
-	envRegion               = "REGION"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -80,6 +76,17 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		if err := json.Unmarshal(data, &tencentcloudCreds); err != nil {
 			return ps, errors.Wrap(err, errUnmarshalCredentials)
 		}
+
+		// set environment variables for sensitive provider configuration
+		// Deprecated: In shared gRPC mode we do not support injecting
+		// credentials via the environment variables. You should specify
+		// credentials via the Terraform main.tf.json instead.
+		/*ps.Env = []string{
+			fmt.Sprintf("%s=%s", envSecretId, tencentcloudCreds[keySecretId]),
+			fmt.Sprintf("%s=%s", envSecretKey, tencentcloudCreds[keySecretKey]),
+		}*/
+		// set credentials in Terraform provider configuration
+		ps.Configuration = map[string]interface{}{}
 		if v, ok := tencentcloudCreds[keySecretId]; ok {
 			ps.Configuration[keySecretId] = v
 		}
@@ -89,21 +96,6 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		if v, ok := tencentcloudCreds[keyRegion]; ok {
 			ps.Configuration[keyRegion] = v
 		}
-
-		// set environment variables for sensitive provider configuration
-		// Deprecated: In shared gRPC mode we do not support injecting
-		// credentials via the environment variables. You should specify
-		// credentials via the Terraform main.tf.json instead.
-		ps.Env = []string{
-			fmt.Sprintf("%s=%s", envSecretId, tencentcloudCreds[keySecretId]),
-			fmt.Sprintf("%s=%s", envSecretKey, tencentcloudCreds[keySecretKey]),
-		}
-		// set credentials in Terraform provider configuration
-		/*ps.Configuration = map[string]interface{}{
-			"secret_id":  tencentcloudCreds["secret_id"],
-			"secret_key": tencentcloudCreds["secret_key"],
-			"region":     tencentcloudCreds["region"],
-		}*/
 		return ps, nil
 	}
 }
