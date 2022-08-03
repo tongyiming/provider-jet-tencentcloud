@@ -35,9 +35,12 @@ const (
 //go:embed schema.json
 var providerSchema string
 
+// IncludedResources
 var IncludedResources = []string{
 	"tencentcloud_vpc$",
 }
+
+//skipList
 var skipList = []string{}
 
 // GetProvider returns provider configuration
