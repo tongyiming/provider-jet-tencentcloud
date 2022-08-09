@@ -21,7 +21,9 @@ import (
 
 	"github.com/crossplane/terrajet/pkg/controller"
 
+	instance "github.com/crossplane-contrib/provider-jet-tencentcloud/internal/controller/cvm/instance"
 	providerconfig "github.com/crossplane-contrib/provider-jet-tencentcloud/internal/controller/providerconfig"
+	instancetcr "github.com/crossplane-contrib/provider-jet-tencentcloud/internal/controller/tcr/instance"
 	vpc "github.com/crossplane-contrib/provider-jet-tencentcloud/internal/controller/vpc/vpc"
 )
 
@@ -29,7 +31,9 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		instance.Setup,
 		providerconfig.Setup,
+		instancetcr.Setup,
 		vpc.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {

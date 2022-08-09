@@ -4,4 +4,4 @@ metadata:
   name: provider-jet-tencentcloud
 spec:
   controller:
-    image: DOCKER_REGISTRY/provider-jet-tencentcloud-controller:VERSION
+    image: https://hub.docker.com/provider-jet-tencentcloud-controller:0.1.0

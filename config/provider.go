@@ -23,7 +23,9 @@ import (
 	tjconfig "github.com/crossplane/terrajet/pkg/config"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
+	"github.com/crossplane-contrib/provider-jet-tencentcloud/config/cvm"
 	"github.com/crossplane-contrib/provider-jet-tencentcloud/config/null"
+	"github.com/crossplane-contrib/provider-jet-tencentcloud/config/tcr"
 	"github.com/crossplane-contrib/provider-jet-tencentcloud/config/vpc"
 )
 
@@ -38,6 +40,8 @@ var providerSchema string
 // IncludedResources include resource
 var IncludedResources = []string{
 	"tencentcloud_vpc$",
+	"tencentcloud_instance$",
+	"tencentcloud_tcr_instance$",
 }
 
 //skipList
@@ -62,6 +66,8 @@ func GetProvider() *tjconfig.Provider {
 		// add custom config functions
 		null.Configure,
 		vpc.Configure,
+		cvm.Configure,
+		tcr.Configure,
 	} {
 		configure(pc)
 	}

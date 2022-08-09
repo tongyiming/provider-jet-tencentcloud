@@ -1,0 +1,10 @@
+apiVersion: tcr.tencentcloud.jet.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  name: example-tcr
+spec:
+  forProvider:
+    name: "test-tcr"
+    instanceType: "basic"
+    deleteBucket: True
+    openPublicOperation: True
