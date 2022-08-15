@@ -5,6 +5,8 @@ PROJECT_NAME := provider-jet-tencentcloud
 PROJECT_REPO := github.com/crossplane-contrib/$(PROJECT_NAME)
 
 export TERRAFORM_VERSION := 1.1.6
+export VERSION := 0.1.0
+export DOCKER_REGISTRY := simatongming
 
 export TERRAFORM_PROVIDER_SOURCE := tencentcloudstack/tencentcloud
 export TERRAFORM_PROVIDER_VERSION := 1.76.3

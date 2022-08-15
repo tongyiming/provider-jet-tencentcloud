@@ -1,7 +1,7 @@
 apiVersion: meta.pkg.crossplane.io/v1alpha1
-kind: Provider
+kind: Configuration
 metadata:
   name: provider-jet-tencentcloud
 spec:
   controller:
-    image: https://hub.docker.com/provider-jet-tencentcloud-controller:0.1.0
+    image: DOCKER_REGISTRY/provider-jet-rancher-controller:VERSION
